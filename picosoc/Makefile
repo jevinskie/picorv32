@@ -87,6 +87,9 @@ icebreaker_fw.bin: icebreaker_fw.elf
 
 # ---- Testbench for SPI Flash Model ----
 
+firmware.hex: gen-firmware-hex.py
+	./gen-firmware-hex.py $@
+
 spiflash_tb: spiflash_tb.vvp firmware.hex
 	vvp -N $<
 
