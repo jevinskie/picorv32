@@ -88,12 +88,25 @@ icebreaker_fw.bin: icebreaker_fw.elf
 # ---- Testbench for SPI Flash Model ----
 
 firmware.hex: gen-firmware-hex.py
-	./gen-firmware-hex.py $@
+	./gen-firmware-hex.py 16777216 $@
 
 spiflash_tb: spiflash_tb.vvp firmware.hex
 	vvp -N $<
 
 spiflash_tb.vvp: spiflash.v spiflash_tb.v
+	iverilog -s testbench -o $@ $^
+
+firmware-macronix.hex: gen-firmware-hex.py
+	./gen-firmware-hex.py 33554432 $@
+
+firmware-macronix-small.hex: gen-firmware-hex-small.py
+	./gen-firmware-hex-small.py $@
+
+# spiflash_macronix_tb: spiflash_macronix_tb.vvp firmware-macronix.hex
+spiflash_macronix_tb: spiflash_macronix_tb.vvp firmware-macronix-small.hex
+	vvp -N $<
+
+spiflash_macronix_tb.vvp: MX25U25635F.v spiflash_macronix_tb.v
 	iverilog -s testbench -o $@ $^
 
 # ---- ASIC Synthesis Tests ----

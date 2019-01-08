@@ -25,3 +25,5 @@
 /testbench.vcd
 /cmos.log
 /firmware.hex
+/firmware-macronix.hex
+/firmware-macronix-small.hex
